@@ -5,6 +5,17 @@ import "testing"
 /*
 gotest -v -run TestIsUnique
 go test -run '^$' -bench '^BenchmarkIsUnique*'
+
+goos: darwin
+goarch: amd64
+pkg: github.com/adamwoolhether/ctci/01arraysAndStrings
+cpu: Intel(R) Core(TM) i9-9880H CPU @ 2.30GHz
+BenchmarkIsUnique1-16             395823              2764 ns/op            1050 B/op          2 allocs/op
+BenchmarkIsUnique2-16             707449              1664 ns/op             280 B/op          3 allocs/op
+BenchmarkIsUnique3-16            5706530               209.1 ns/op           224 B/op          1 allocs/op
+PASS
+ok      github.com/adamwoolhether/ctci/01arraysAndStrings       3.902s
+
 */
 
 func TestIsUnique1(t *testing.T) {
