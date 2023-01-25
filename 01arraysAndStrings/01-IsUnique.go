@@ -28,8 +28,8 @@ func isUnique1(input string) bool {
 	return true
 }
 
-// isUnique1 uses go's internal sort algorithm
-// O(N log N), Space: O(N)
+// isUnique2 uses go's internal sort algorithm
+// O(N log N), Space: O(log N)
 func isUnique2(input string) bool {
 	runes := []rune(input)
 	sort.Slice(runes, func(i, j int) bool {
@@ -39,6 +39,21 @@ func isUnique2(input string) bool {
 	for i := 0; i < len(runes)-1; i++ {
 		if runes[i] == runes[i+1] {
 			return false
+		}
+	}
+
+	return true
+}
+
+// isUnique3 uses nested loops.
+// O(N^2), Space: O(1)
+func isUnique3(input string) bool {
+	runes := []rune(input)
+	for i := 0; i < len(runes); i++ {
+		for j := 0; j < len(runes); j++ {
+			if i != j && runes[i] == runes[j] {
+				return false
+			}
 		}
 	}
 
