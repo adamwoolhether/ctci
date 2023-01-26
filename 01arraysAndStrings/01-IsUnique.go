@@ -12,9 +12,9 @@ What if you cannot use additional data structures?
 1. Determine the charset of our string. ASCII or UNICODE
 */
 
-// isUnique1 uses a hashmap.
+// isUniqueMap uses a hashmap.
 // O(N), Space: O(N)
-func isUnique1(input string) bool {
+func isUniqueMap(input string) bool {
 	lookup := make(map[rune]bool, len(input))
 
 	for _, c := range input {
@@ -28,9 +28,9 @@ func isUnique1(input string) bool {
 	return true
 }
 
-// isUnique2 uses go's internal sort algorithm
+// isUniqueSort uses go's internal sort algorithm
 // O(N log N), Space: O(log N)
-func isUnique2(input string) bool {
+func isUniqueSort(input string) bool {
 	runes := []rune(input)
 	sort.Slice(runes, func(i, j int) bool {
 		return runes[i] < runes[j]
@@ -45,9 +45,9 @@ func isUnique2(input string) bool {
 	return true
 }
 
-// isUnique3 uses nested loops.
+// isUniqueLoops uses nested loops.
 // O(N^2), Space: O(1)
-func isUnique3(input string) bool {
+func isUniqueLoops(input string) bool {
 	runes := []rune(input)
 	for i := 0; i < len(runes); i++ {
 		for j := 0; j < len(runes); j++ {
@@ -55,6 +55,21 @@ func isUnique3(input string) bool {
 				return false
 			}
 		}
+	}
+
+	return true
+}
+
+// isUniqueBitSet
+func isUniqueBitSet(input string) bool {
+	check := 0
+	for _, char := range []rune(input) {
+		val := char - 'a'
+		mask := 1 << uint32(val)
+		if check&mask > 0 {
+			return false
+		}
+		check |= mask
 	}
 
 	return true

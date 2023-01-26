@@ -10,15 +10,17 @@ goos: darwin
 goarch: amd64
 pkg: github.com/adamwoolhether/ctci/01arraysAndStrings
 cpu: Intel(R) Core(TM) i9-9880H CPU @ 2.30GHz
-BenchmarkIsUnique1-16             395823              2764 ns/op            1050 B/op          2 allocs/op
-BenchmarkIsUnique2-16             707449              1664 ns/op             280 B/op          3 allocs/op
-BenchmarkIsUnique3-16            5706530               209.1 ns/op           224 B/op          1 allocs/op
+BenchmarkIsUniqueMap-16           657664              1837 ns/op            1050 B/op          2 allocs/op
+BenchmarkIsUniqueSort-16         1000000              1059 ns/op             280 B/op          3 allocs/op
+BenchmarkIsUniqueLoops-16        8753114               139.2 ns/op           224 B/op          1 allocs/op
+BenchmarkIsUniqueBitSet-16       7581468               161.0 ns/op           224 B/op          1 allocs/op
 PASS
-ok      github.com/adamwoolhether/ctci/01arraysAndStrings       3.902s
+ok      github.com/adamwoolhether/ctci/01arraysAndStrings       6.310s
+
 
 */
 
-func TestIsUnique1(t *testing.T) {
+func TestIsUniqueMap(t *testing.T) {
 	testCases := []struct {
 		input string
 		exp   bool
@@ -31,7 +33,7 @@ func TestIsUnique1(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.input, func(t *testing.T) {
-			got := isUnique1(tc.input)
+			got := isUniqueMap(tc.input)
 			if got != tc.exp {
 				t.Errorf("got %t, exp %t", got, tc.exp)
 			}
@@ -39,16 +41,16 @@ func TestIsUnique1(t *testing.T) {
 	}
 }
 
-func BenchmarkIsUnique1(b *testing.B) {
+func BenchmarkIsUniqueMap(b *testing.B) {
 	str := "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZa"
 	b.ReportAllocs()
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		_ = isUnique1(str)
+		_ = isUniqueMap(str)
 	}
 }
 
-func TestIsUnique2(t *testing.T) {
+func TestIsUniqueSort(t *testing.T) {
 	testCases := []struct {
 		input string
 		exp   bool
@@ -61,7 +63,7 @@ func TestIsUnique2(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.input, func(t *testing.T) {
-			got := isUnique2(tc.input)
+			got := isUniqueSort(tc.input)
 			if got != tc.exp {
 				t.Errorf("got %t, exp %t", got, tc.exp)
 			}
@@ -69,16 +71,16 @@ func TestIsUnique2(t *testing.T) {
 	}
 }
 
-func BenchmarkIsUnique2(b *testing.B) {
+func BenchmarkIsUniqueSort(b *testing.B) {
 	str := "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZa"
 	b.ReportAllocs()
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		_ = isUnique2(str)
+		_ = isUniqueSort(str)
 	}
 }
 
-func TestIsUnique3(t *testing.T) {
+func TestIsUniqueLoops(t *testing.T) {
 	testCases := []struct {
 		input string
 		exp   bool
@@ -91,7 +93,7 @@ func TestIsUnique3(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.input, func(t *testing.T) {
-			got := isUnique3(tc.input)
+			got := isUniqueLoops(tc.input)
 			if got != tc.exp {
 				t.Errorf("got %t, exp %t", got, tc.exp)
 			}
@@ -99,11 +101,41 @@ func TestIsUnique3(t *testing.T) {
 	}
 }
 
-func BenchmarkIsUnique3(b *testing.B) {
+func BenchmarkIsUniqueLoops(b *testing.B) {
 	str := "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZa"
 	b.ReportAllocs()
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		_ = isUnique3(str)
+		_ = isUniqueLoops(str)
+	}
+}
+
+func TestIsUniqueBitSet(t *testing.T) {
+	testCases := []struct {
+		input string
+		exp   bool
+	}{
+		{"1àha漢字Pépy5", true},
+		{"1àha漢字Pépy51àha漢字Pépy5", false},
+		{"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", true},
+		{"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZa", false},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.input, func(t *testing.T) {
+			got := isUniqueBitSet(tc.input)
+			if got != tc.exp {
+				t.Errorf("got %t, exp %t", got, tc.exp)
+			}
+		})
+	}
+}
+
+func BenchmarkIsUniqueBitSet(b *testing.B) {
+	str := "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZa"
+	b.ReportAllocs()
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		_ = isUniqueBitSet(str)
 	}
 }
